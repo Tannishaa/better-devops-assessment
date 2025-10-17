@@ -1,0 +1,38 @@
+name: CI/CD Pipeline for Quote App
+
+#This tells GitHub to run the pipeline on any push to the main branch
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-and-push:
+    #Use a standard Ubuntu virtual machine
+    runs-on: ubuntu-latest
+
+    steps:
+      #Step 1: Checks out a copy of the code onto the virtual machine
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      #Step 2: A quality check to look for simple errors in the Python code
+      - name: Lint with flake8
+        run: |
+          pip install flake8
+          # stop the build if there are Python syntax errors
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+
+      #Step 3: Logs into Docker Hub using the secrets created
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      #Step 4: Builds the Docker image and pushes it to the Docker Hub repo
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/quote-app:latest
