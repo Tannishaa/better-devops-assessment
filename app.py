@@ -4,11 +4,11 @@ import random
 app = Flask(__name__)
 
 QUOTES = [
-    "The best way to predict the future is to create it.",
-    "DevOps is not a goal, but a never-ending process of continual improvement.",
-    "The only way to do great work is to love what you do.",
-    "Automate everything that can be automated.",
-    "Move fast and break things... but have a good rollback plan."
+    "Bloom with grace, even in the spaces you didn't think you'd grow.",
+    "Your only limit is the one you set in your own sky.",
+    "Create a life that feels as good on the inside as it looks on the outside.",
+    "Trust the magic of new beginnings and the detours along the way.",
+    "Be the energy you want to attract: vibrant, brave, and unapologetically you.",
 ]
 
 @app.route("/")
